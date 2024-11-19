@@ -46,6 +46,14 @@ function Nav() {
             {item.name}
           </Link>
         ))}
+        <div className='flex max-md:justify-end gap-2'>
+          <Link
+            href='/Login'
+            className=' bg-primary text-white py-2 px-8 rounded-xl'
+          >
+            Sign In
+          </Link>
+        </div>
       </div>
     </nav>
   );
