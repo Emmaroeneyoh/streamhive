@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon, Mail, Lock } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
 
 const Signup = () => {
   const { signup } = useAuth();
@@ -15,8 +14,6 @@ const Signup = () => {
     password: "",
     phone: "",
   });
-
-  const router = useRouter(); // Initialize router
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -42,7 +39,8 @@ const Signup = () => {
       return;
     }
     await signup(formData);
-    router.push("/VerifyEmail");
+    setIsLoading(false);
+
     console.log("Form submitted:", formData);
   };
 

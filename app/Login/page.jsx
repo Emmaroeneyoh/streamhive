@@ -2,17 +2,15 @@
 import { EyeIcon, EyeOffIcon, Mail, Lock } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
 
 const Login = () => {
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  const router = useRouter(); // Initialize router
 
   const handleChange = (e) => {
     setFormData({
@@ -23,8 +21,10 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     await login(formData);
-    router.push("/Dashboard");
+    setIsLoading(false);
+
     console.log("Form submitted:", formData);
   };
 
@@ -100,7 +100,7 @@ const Login = () => {
               </div>
               <div className='flex justify-end mt-2'>
                 <a
-                  href='/ResetPassword'
+                  href='/ForgotPassword'
                   className='text-sm text-gray-600 hover:text-secondary'
                 >
                   Forgot Password?
@@ -112,7 +112,7 @@ const Login = () => {
               type='submit'
               className='w-full bg-secondary text-white py-3 rounded-lg hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2'
             >
-              Sign In
+              {!isLoading ? "Sign In" : "Logging In..."}
             </button>
 
             <div className='relative'>

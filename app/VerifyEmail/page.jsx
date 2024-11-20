@@ -1,17 +1,17 @@
 "use client";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
 
 const VerifyEmail = () => {
   const { verifyEmail } = useAuth();
   const [code, setCode] = useState("");
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     await verifyEmail({ code });
-    router.push("/Login");
+    setIsLoading(false);
   };
 
   return (
@@ -39,7 +39,7 @@ const VerifyEmail = () => {
         type='submit'
         className='w-full p-2 bg-secondary text-white rounded hover:bg-primary'
       >
-        Verify Email
+        {!isLoading ? "Verify Email" : "Verifying..."}
       </button>
     </form>
   );

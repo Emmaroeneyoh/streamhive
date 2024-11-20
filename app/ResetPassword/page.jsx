@@ -1,15 +1,23 @@
 "use client";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon, Mail, Lock } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 // import hexagon from "/assets/forgot.svg";
 
 const ResetPassword = () => {
+  const { resetPassword } = useAuth();
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setError(""); // Clear error when user edits input
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -18,13 +26,17 @@ const ResetPassword = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.newPassword !== formData.confirmPassword) {
-      alert("Passwords do not match");
+    setIsLoading(true);
+    if (formData.password !== confirmPassword) {
+      setError("Passwords do not match!");
+      toast.error(error.response?.data?.message || "Passwords do not match!");
+      setIsLoading(false);
       return;
     }
-    console.log("Reset Password Data:", formData);
+    await resetPassword(formData);
+    setIsLoading(false);
   };
 
   return (
@@ -42,7 +54,7 @@ const ResetPassword = () => {
       <div className='w-full md:w-1/2 flex items-center justify-center p-4'>
         <div className='w-full max-w-md'>
           <h2 className='text-2xl font-bold mb-6 text-center'>
-            Reset Your Password
+            Reset Password
           </h2>
           <form onSubmit={handleSubmit} className='space-y-6'>
             {/* Email Field */}
@@ -50,63 +62,67 @@ const ResetPassword = () => {
               <input
                 type='email'
                 name='email'
-                required
-                placeholder='Email Address'
+                id='email'
+                placeholder='email'
                 value={formData.email}
                 onChange={handleChange}
+                required
                 className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
               />
               <Mail className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
             </div>
 
-            {/* New Password Field */}
-            <div className='relative'>
-              <input
-                type={showPassword ? "text" : "password"}
-                name='newPassword'
-                required
-                placeholder='New Password'
-                value={formData.newPassword}
-                onChange={handleChange}
-                className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
-              />
-              <Lock className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
-              <button
-                type='button'
-                onClick={() => setShowPassword(!showPassword)}
-                className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400'
-              >
-                {showPassword ? (
-                  <EyeOffIcon className='w-5 h-5' />
-                ) : (
-                  <EyeIcon className='w-5 h-5' />
-                )}
-              </button>
+            <div>
+              <div className='relative'>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name='password'
+                  id='password'
+                  placeholder='password'
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
+                />
+                <Lock className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
+                <button
+                  type='button'
+                  onClick={() => setShowPassword(!showPassword)}
+                  className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400'
+                >
+                  {showPassword ? (
+                    <EyeOffIcon className='w-5 h-5' />
+                  ) : (
+                    <EyeIcon className='w-5 h-5' />
+                  )}
+                </button>
+              </div>
             </div>
-
-            {/* Confirm Password Field */}
-            <div className='relative'>
-              <input
-                type={showPassword ? "text" : "password"}
-                name='confirmPassword'
-                required
-                placeholder='Confirm New Password'
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
-              />
-              <Lock className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
-              <button
-                type='button'
-                onClick={() => setShowPassword(!showPassword)}
-                className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400'
-              >
-                {showPassword ? (
-                  <EyeOffIcon className='w-5 h-5' />
-                ) : (
-                  <EyeIcon className='w-5 h-5' />
-                )}
-              </button>
+            <div>
+              <div className='relative'>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name='confirmPassword'
+                  id='confirmPassword'
+                  placeholder='confirmPassword'
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  required
+                  className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
+                />
+                <Lock className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
+                <button
+                  type='button'
+                  onClick={() => setShowPassword(!showPassword)}
+                  className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400'
+                >
+                  {showPassword ? (
+                    <EyeOffIcon className='w-5 h-5' />
+                  ) : (
+                    <EyeIcon className='w-5 h-5' />
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Submit Button */}
@@ -114,7 +130,7 @@ const ResetPassword = () => {
               type='submit'
               className='w-full bg-secondary text-white py-3 rounded-lg hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2'
             >
-              Reset Password
+              {!isLoading ? "Reset Password" : "Authenticating..."}
             </button>
           </form>
         </div>
