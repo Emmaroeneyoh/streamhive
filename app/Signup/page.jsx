@@ -1,24 +1,48 @@
 "use client";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon, Mail, Lock } from "lucide-react";
-import hexagon from "../assets/images/form-canva.png";
+import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
+  const { signup } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
+    username: "",
+    companyname: "",
     email: "",
     password: "",
+    phone: "",
   });
+
+  const router = useRouter(); // Initialize router
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setError(""); // Clear error when user edits input
+  };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setError(""); // Clear error when user edits input
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    if (formData.password !== confirmPassword) {
+      setError("Passwords do not match!");
+      return;
+    }
+    await signup(formData);
+    router.push("/VerifyEmail");
     console.log("Form submitted:", formData);
   };
 
@@ -53,12 +77,42 @@ const Signup = () => {
             <div>
               <div className='relative'>
                 <input
+                  type='text'
+                  name='username'
+                  id='username'
+                  placeholder='username'
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                  className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
+                />
+                <Mail className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
+              </div>
+            </div>
+            <div>
+              <div className='relative'>
+                <input
+                  type='text'
+                  name='companyname'
+                  id='companyname'
+                  placeholder='companyname'
+                  value={formData.companyname}
+                  onChange={handleChange}
+                  required
+                  className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
+                />
+                <Mail className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
+              </div>
+            </div>
+            <div>
+              <div className='relative'>
+                <input
                   type='email'
                   name='email'
-                  required
-                  placeholder='Email'
+                  placeholder='email'
                   value={formData.email}
                   onChange={handleChange}
+                  required
                   className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
                 />
                 <Mail className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
@@ -70,10 +124,11 @@ const Signup = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name='password'
-                  required
-                  placeholder='Password'
+                  id='password'
+                  placeholder='password'
                   value={formData.password}
                   onChange={handleChange}
+                  required
                   className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
                 />
                 <Lock className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
@@ -94,11 +149,12 @@ const Signup = () => {
               <div className='relative'>
                 <input
                   type={showPassword ? "text" : "password"}
-                  name='password'
+                  name='confirmPassword'
+                  id='confirmPassword'
+                  placeholder='confirmPassword'
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
                   required
-                  placeholder='Confirm Password'
-                  value={formData.password}
-                  onChange={handleChange}
                   className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
                 />
                 <Lock className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
@@ -115,12 +171,27 @@ const Signup = () => {
                 </button>
               </div>
             </div>
+            <div>
+              <div className='relative'>
+                <input
+                  type='text'
+                  name='phone'
+                  id='phone'
+                  placeholder='phone'
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
+                />
+                <Mail className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
+              </div>
+            </div>
 
             <button
               type='submit'
               className='w-full bg-secondary text-white py-3 rounded-lg hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2'
             >
-              Sign Up
+              {!isLoading ? "Sign In" : "Authenticating..."}
             </button>
 
             <div className='relative'>

@@ -1,14 +1,18 @@
 "use client";
 import { EyeIcon, EyeOffIcon, Mail, Lock } from "lucide-react";
-// import hexagon from "../assets/images/forgot.svg";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const router = useRouter(); // Initialize router
 
   const handleChange = (e) => {
     setFormData({
@@ -17,8 +21,10 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await login(formData);
+    router.push("/Dashboard");
     console.log("Form submitted:", formData);
   };
 
@@ -56,10 +62,11 @@ const Login = () => {
                 <input
                   type='email'
                   name='email'
-                  required
+                  id='email'
                   placeholder='Email'
                   value={formData.email}
                   onChange={handleChange}
+                  required
                   className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
                 />
                 <Mail className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
@@ -71,10 +78,11 @@ const Login = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   name='password'
-                  required
+                  id='password'
                   placeholder='Password'
                   value={formData.password}
                   onChange={handleChange}
+                  required
                   className='w-full p-3 border rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary'
                 />
                 <Lock className='absolute left-3 top-1/2 -translate-y-1/2 text-secondary w-5 h-5' />
