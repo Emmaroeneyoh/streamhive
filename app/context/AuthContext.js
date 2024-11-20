@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
       });
       setUser(response.data.user);
       toast.success("Login successful!");
+      setIsAuthenticated(true);
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");
@@ -98,6 +99,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Update this based on auth logic
+
   return (
     <AuthContext.Provider
       value={{
@@ -108,6 +111,8 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         confirmForgotPasswordCode,
         resetPassword,
+        isAuthenticated,
+        setIsAuthenticated,
       }}
     >
       {children}

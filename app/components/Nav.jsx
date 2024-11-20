@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
 
 const navLinks = [
   {
@@ -28,6 +29,8 @@ const navLinks = [
 
 function Nav() {
   const pathName = usePathname();
+  const { isAuthenticated } = useAuth(); // Get authentication status
+
   function test() {
     console.log(pathName);
   }
@@ -47,12 +50,14 @@ function Nav() {
           </Link>
         ))}
         <div className='flex max-md:justify-end gap-2'>
-          <Link
-            href='/Login'
-            className=' bg-primary text-white py-2 px-8 rounded-xl'
-          >
-            Sign In
-          </Link>
+          {!isAuthenticated && (
+            <Link
+              href='/Login'
+              className=' bg-primary text-white py-2 px-8 rounded-xl'
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
     </nav>
