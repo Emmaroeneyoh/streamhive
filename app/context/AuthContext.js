@@ -10,17 +10,18 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const router = useRouter(); // Initialize router
 
-  const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
-    },
-  });
+  const api = process.env.NEXT_PUBLIC_API_URL;
+  //   const api = axios.create({
+  //     baseURL: process.env.NEXT_PUBLIC_API_URL,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "x-api-key": process.env.NEXT_PUBLIC_API_KEY,
+  //     },
+  //   });
 
   const signup = async (data) => {
     try {
-      const response = await api.post("/user/signup", {
+      const response = await axios.post(`${api}/user/signup`, {
         username: data.username,
         companyname: data.companyname,
         email: data.email,

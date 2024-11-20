@@ -36,6 +36,8 @@ const Signup = () => {
     setIsLoading(true);
     if (formData.password !== confirmPassword) {
       setError("Passwords do not match!");
+      toast.error(error.response?.data?.message || "Passwords do not match!");
+      setIsLoading(false);
       return;
     }
     await signup(formData);

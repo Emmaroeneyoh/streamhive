@@ -22,6 +22,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    // toast.error(error.response?.data?.message || "Couldn't Login");
     await login(formData);
     setIsLoading(false);
 
