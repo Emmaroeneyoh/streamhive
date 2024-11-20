@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const verifyEmail = async (data) => {
     try {
-      const response = await api.post("/user/confirmcode", {
+      const response = await api.post(`${api}/user/confirmcode`, {
         code: data.code,
       });
       toast.success("Email verified successfully!");
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (data) => {
     try {
-      const response = await api.post("/user/login", {
+      const response = await axios.post(`${api}/user/login`, {
         email: data.email,
         password: data.password,
       });
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
 
   const forgotPassword = async (email) => {
     try {
-      const response = await api.post("/user/forgot/password", {
+      const response = await axios.post(`${api}/user/forgot/password`, {
         email,
       });
       toast.success("Password reset instructions sent to your email.");
@@ -82,10 +82,13 @@ export const AuthProvider = ({ children }) => {
 
   const confirmForgotPasswordCode = async (data) => {
     try {
-      const response = await api.post("/user/confirm/forgotpassword/code", {
-        code: data.code,
-        email: data.email,
-      });
+      const response = await axios.post(
+        `${api}/user/confirm/forgotpassword/code`,
+        {
+          code: data.code,
+          email: data.email,
+        }
+      );
       toast.success("Code confirmed successfully!");
       router.push("/ResetPassword");
       return response.data;
@@ -96,7 +99,7 @@ export const AuthProvider = ({ children }) => {
 
   const resetPassword = async (data) => {
     try {
-      const response = await api.post("/user/reset/password", {
+      const response = await axios.post(`${api}/user/reset/password`, {
         email: data.email,
         password: data.password,
       });
