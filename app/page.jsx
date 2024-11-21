@@ -2,6 +2,7 @@ import Contact from "./Sections/Contact";
 import Hero from "./Sections/Hero";
 import Jobs from "./Sections/Jobs";
 import Portfolio from "./Sections/Portfolio";
+import Pricing from "./Sections/Pricing";
 import Resume from "./Sections/Resume";
 
 export default function Home() {
@@ -16,8 +17,8 @@ export default function Home() {
       <section id='portfolio' className=' mb-20'>
         <Portfolio />
       </section>
-      <section id='job' className=' mb-20'>
-        <Jobs />
+      <section id='pricing' className=' mb-20'>
+        <Pricing />
       </section>
       <section id='contact' className=' mb-20'>
         <Contact />

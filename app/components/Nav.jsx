@@ -10,20 +10,20 @@ const navLinks = [
     path: "/",
   },
   {
-    name: "Resume",
-    path: "#resume",
+    name: "about",
+    path: "/#about",
   },
   {
-    name: "Portfolio",
-    path: "#portfolio",
+    name: "documentation",
+    path: "/#documentation",
   },
   {
-    name: "Job",
-    path: "#job",
+    name: "pricing",
+    path: "/#pricing",
   },
   {
-    name: "Contact",
-    path: "#contact",
+    name: "contact",
+    path: "/#contact",
   },
 ];
 
@@ -50,12 +50,19 @@ function Nav() {
           </Link>
         ))}
         <div className='flex max-md:justify-end gap-2'>
-          {!isAuthenticated && (
+          {!isAuthenticated ? (
             <Link
               href='/Login'
               className=' bg-primary text-white py-2 px-8 rounded-xl'
             >
               Sign In
+            </Link>
+          ) : (
+            <Link
+              href='/Dashboard'
+              className=' bg-primary text-white py-2 px-8 rounded-xl'
+            >
+              Profile
             </Link>
           )}
         </div>

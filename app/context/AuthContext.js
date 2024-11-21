@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -28,6 +28,18 @@ export const AuthProvider = ({ children }) => {
         password: data.password,
         phone: data.phone,
       });
+
+      // Set the user data in context after signup
+      setUser(
+        response.data.data.userDetails || {
+          username: data.username,
+          email: data.email,
+          companyname: data.companyname,
+          phone: data.phone,
+        }
+      );
+      console.log(user);
+
       toast.success("Signup successful! Check your email for verification.");
       router.push("/VerifyEmail");
       return response.data;
@@ -55,6 +67,7 @@ export const AuthProvider = ({ children }) => {
         email: data.email,
         password: data.password,
       });
+
       setUser(response.data.user);
       toast.success("Login successful!");
       router.push("/Dashboard");
@@ -66,6 +79,16 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("userId", userId);
 
       console.log(response.data);
+      // Set the user data in context after signup
+      setUser(
+        response.data.data.userDetails || {
+          username: data.username,
+          email: data.email,
+          companyname: data.companyname,
+          phone: data.phone,
+          status: data.status,
+        }
+      );
       console.log(response.data.data.userDetails._id);
 
       return response.data;
@@ -119,6 +142,37 @@ export const AuthProvider = ({ children }) => {
       toast.error(error.response?.data?.message || "Password reset failed!");
     }
   };
+
+  // useEffect(() => {
+  //   const register = async () => {
+  //     try {
+  //       const response = await axios.get(`${api}/user`, {
+  //         username: data.username,
+  //         companyname: data.companyname,
+  //         email: data.email,
+  //         password: data.password,
+  //         phone: data.phone,
+  //       });
+
+  //       // Set the user data in context after signup
+  //       setUser(
+  //         response.data.data.userDetails || {
+  //           username: data.username,
+  //           email: data.email,
+  //           companyname: data.companyname,
+  //           phone: data.phone,
+  //         }
+  //       );
+  //       console.log(user);
+  //       toast.success("Signup successful! Check your email for verification.");
+  //       // router.push("/VerifyEmail");
+  //     } catch (error) {
+  //       toast.error(error.response?.data?.message || "Signup failed!");
+  //     }
+  //   };
+
+  //   register(); // Call the signup function
+  // }, []); // Empty dependency array to run once when the component mounts
 
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Update this based on auth logic
 

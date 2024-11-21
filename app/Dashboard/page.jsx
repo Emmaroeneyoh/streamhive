@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Edit2,
   Save,
@@ -13,27 +13,42 @@ import {
   LogOut,
 } from "lucide-react";
 import Users from "../components/_user/Users";
+import { useAuth } from "../context/AuthContext";
 
-const countryCodes = [
-  { code: "+1", label: "USA/Canada (+1)" },
-  { code: "+44", label: "UK (+44)" },
-  { code: "+234", label: "Nigeria (+234)" },
-  { code: "+91", label: "India (+91)" },
-  { code: "+61", label: "Australia (+61)" },
-  { code: "+81", label: "Japan (+81)" },
-];
+// const countryCodes = [
+//   { code: "+1", label: "USA/Canada (+1)" },
+//   { code: "+44", label: "UK (+44)" },
+//   { code: "+234", label: "Nigeria (+234)" },
+//   { code: "+91", label: "India (+91)" },
+//   { code: "+61", label: "Australia (+61)" },
+//   { code: "+81", label: "Japan (+81)" },
+// ];
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { user } = useAuth();
   const [userData, setUserData] = useState({
-    name: "Jane Doe",
-    email: "jane.doe@example.com",
-    phone: "234567890",
-    company: "Acme Corp",
-    countryCode: "+1",
-    profilePic: "https://via.placeholder.com/150",
+    name: user?.username || "Jane Doe",
+    email: user?.email || "jane.doe@example.com",
+    phone: user?.phone || "234567890",
+    company: user?.companyname || "Acme Corp",
+    status: user?.status || "Subscribe",
+    // countryCode: "+1",
+    // profilePic: "https://via.placeholder.com/150",
   });
+
+  // Fetch user data on component mount
+  // useEffect(() => {
+  //   if (user) {
+  //     setUserData({
+  //       name: user.username || "Jane Doe",
+  //       email: user.email || "jane.doe@example.com",
+  //       phone: user.phone || "234567890",
+  //       company: user.companyname || "Acme Corp",
+  //     });
+  //   }
+  // }, [user]);
 
   const handleChange = (e) => {
     setUserData({
@@ -49,19 +64,19 @@ const Dashboard = () => {
     });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserData({
-          ...userData,
-          profilePic: reader.result,
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setUserData({
+  //         ...userData,
+  //         profilePic: reader.result,
+  //       });
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
@@ -75,7 +90,7 @@ const Dashboard = () => {
   return (
     <div className='flex min-h-screen bg-gray-100'>
       {/* Sidebar */}
-      <div
+      {/* <div
         className={`fixed top-0 left-0 z-50 h-screen bg-accent shadow-md transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform md:relative md:translate-x-0 w-64`}
@@ -133,7 +148,7 @@ const Dashboard = () => {
             </ul>
           </div>
         </nav>
-      </div>
+      </div> */}
 
       {/* Main Dashboard Area */}
       <div className='flex-1'>
@@ -150,7 +165,9 @@ const Dashboard = () => {
         {/* Profile Page */}
         <div className='p-4 md:p-8 mt-6'>
           <div className='max-w-lg mx-auto bg-white shadow-md rounded-lg p-6'>
-            <h2 className='text-2xl font-bold text-center mb-6'>My Profile</h2>
+            <h2 className='text-2xl font-bold text-center mb-6'>
+              My Dashboard
+            </h2>
             <form className='space-y-6'>
               {/* Name */}
               <div className='relative'>
@@ -171,7 +188,6 @@ const Dashboard = () => {
                   />
                 </div>
               </div>
-
               {/* Email */}
               <div className='relative'>
                 <label className='block text-gray-600 mb-1'>Email</label>
@@ -191,13 +207,12 @@ const Dashboard = () => {
                   />
                 </div>
               </div>
-
               {/* Phone */}
               <div className='relative'>
                 <label className='block text-gray-600 mb-1'>Phone</label>
                 <div className='flex items-center gap-2'>
                   <Phone className='text-green-600 w-5 h-5' />
-                  <select
+                  <div
                     name='countryCode'
                     value={userData.countryCode}
                     onChange={handleCountryCodeChange}
@@ -208,12 +223,10 @@ const Dashboard = () => {
                         : "bg-gray-100"
                     }`}
                   >
-                    {countryCodes.map((country) => (
-                      <option key={country.code} value={country.code}>
-                        {country.label}
-                      </option>
-                    ))}
-                  </select>
+                    <div>NGN</div>
+                    {/* {countryCodes.map((country) => (
+                    ))} */}
+                  </div>
                   <input
                     type='text'
                     name='phone'
@@ -228,7 +241,6 @@ const Dashboard = () => {
                   />
                 </div>
               </div>
-
               {/* Company */}
               <div className='relative'>
                 <label className='block text-gray-600 mb-1'>Company</label>
@@ -248,7 +260,6 @@ const Dashboard = () => {
                   />
                 </div>
               </div>
-
               {/* Company */}
               <div className='relative'>
                 <label className='block text-gray-600 mb-1'>Company</label>
@@ -268,10 +279,25 @@ const Dashboard = () => {
                   />
                 </div>
               </div>
-
               {/* Users */}
-              <div>
+              {/* <div>
                 <Users />
+              </div> */}
+              <div className=' flex justify-center items-center'>
+                <article className=' flex flex-col gap-4 justify-center items-center'>
+                  <h2>Subscription</h2>
+                  {userData?.status === true ? (
+                    <button
+                      type='button'
+                      className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition'
+                    >
+                      {/* <Edit2 className='inline w-5 h-5 mr-2' /> */}
+                      {userData?.status}
+                    </button>
+                  ) : (
+                    <p>You are Subscribed</p>
+                  )}
+                </article>
               </div>
 
               {/* Action Buttons */}
