@@ -59,6 +59,15 @@ export const AuthProvider = ({ children }) => {
       toast.success("Login successful!");
       router.push("/Dashboard");
       setIsAuthenticated(true);
+      const token = response.data.data.token;
+      const userId = response.data.data.userDetails._id;
+
+      localStorage.setItem("jsontokenWebToken", token);
+      localStorage.setItem("userId", userId);
+
+      console.log(response.data);
+      console.log(response.data.data.userDetails._id);
+
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");

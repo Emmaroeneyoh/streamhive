@@ -202,7 +202,7 @@ const Tabs = () => {
             <div className='flex flex-col justify-start gap-[30px]'>
               {services.items.map((item, index) => {
                 return (
-                  <div className=' flex flex-col gap-2'>
+                  <div key={index} className=' flex flex-col gap-2'>
                     <h3 className=' text-2xl font-bold'>{item.title}</h3>
                     <p>{item.description}</p>
                     <div className=' flex justify-end items-center'>

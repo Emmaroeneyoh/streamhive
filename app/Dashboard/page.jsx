@@ -12,6 +12,7 @@ import {
   X,
   LogOut,
 } from "lucide-react";
+import Users from "../components/_user/Users";
 
 const countryCodes = [
   { code: "+1", label: "USA/Canada (+1)" },
@@ -246,6 +247,11 @@ const Dashboard = () => {
                     }`}
                   />
                 </div>
+              </div>
+
+              {/* Users */}
+              <div>
+                <Users />
               </div>
 
               {/* Action Buttons */}

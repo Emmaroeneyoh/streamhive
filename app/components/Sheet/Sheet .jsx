@@ -53,6 +53,7 @@ const Sheet = () => {
         <div className='flex flex-col justify-center items-center gap-8'>
           {Links.map((item, index) => (
             <Link
+              key={index}
               href={item.path}
               className={`${item.path == pathName && "text-primary"}`}
               onClick={closeSheet}
