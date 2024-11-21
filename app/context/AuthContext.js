@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
           status: data.status,
         }
       );
-      console.log(response.data.data.userDetails._id);
+      console.log(response.data.data.userDetails.status);
 
       return response.data;
     } catch (error) {

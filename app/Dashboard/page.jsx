@@ -33,7 +33,7 @@ const Dashboard = () => {
     email: user?.email || "jane.doe@example.com",
     phone: user?.phone || "234567890",
     company: user?.companyname || "Acme Corp",
-    status: user?.status || "Subscribe",
+    status: user?.status ? "Subscribed" : "Subscribe" || "Subscribe",
     // countryCode: "+1",
     // profilePic: "https://via.placeholder.com/150",
   });
@@ -284,18 +284,30 @@ const Dashboard = () => {
                 <Users />
               </div> */}
               <div className=' flex justify-center items-center'>
-                <article className=' flex flex-col gap-4 justify-center items-center'>
+                <article className=' flex flex-col gap-6 justify-center items-center'>
                   <h2>Subscription</h2>
                   {userData?.status === true ? (
-                    <button
-                      type='button'
-                      className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition'
-                    >
-                      {/* <Edit2 className='inline w-5 h-5 mr-2' /> */}
-                      {userData?.status}
-                    </button>
+                    <div className=' flex flex-col gap-2 justify-center items-center'>
+                      <p>You are Subscribed</p>
+                      <button
+                        type='button'
+                        className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition'
+                      >
+                        {/* <Edit2 className='inline w-5 h-5 mr-2' /> */}
+                        {userData?.status}
+                      </button>
+                    </div>
                   ) : (
-                    <p>You are Subscribed</p>
+                    <div className=' flex flex-col gap-2 justify-center items-center'>
+                      <p>You are Not Subscribed</p>
+                      <button
+                        type='button'
+                        className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition'
+                      >
+                        {/* <Edit2 className='inline w-5 h-5 mr-2' /> */}
+                        {userData?.status}
+                      </button>
+                    </div>
                   )}
                 </article>
               </div>
