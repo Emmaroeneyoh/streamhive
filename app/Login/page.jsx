@@ -2,6 +2,7 @@
 import { EyeIcon, EyeOffIcon, Mail, Lock } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { login } = useAuth();
@@ -22,7 +23,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    toast.error(error.response?.data?.message || "Couldn't Login");
+    // toast.error(error.response?.data?.message || "Couldn't Login");
     await login(formData);
     setIsLoading(false);
 

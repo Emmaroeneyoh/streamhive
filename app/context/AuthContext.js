@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const router = useRouter(); // Initialize router
 
-  const api = process.env.NEXT_PUBLIC_API_URL;
+  const api = "https://turnserver-vqwh.onrender.com";
   //   const api = axios.create({
   //     baseURL: process.env.NEXT_PUBLIC_API_URL,
   //     headers: {
