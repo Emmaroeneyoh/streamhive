@@ -74,9 +74,11 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
       const token = response.data.data.token;
       const userId = response.data.data.userDetails._id;
+      const email = response.data.data.userDetails.email;
 
       localStorage.setItem("jsontokenWebToken", token);
       localStorage.setItem("userId", userId);
+      localStorage.setItem("email", email);
 
       console.log(response.data);
       // Set the user data in context after signup
@@ -143,6 +145,81 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateSubscription = async (data) => {
+    try {
+      const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
+
+      console.log(token);
+
+      if (!token) {
+        throw new Error("No authentication token found. Please log in again.");
+      }
+
+      const response = await axios.post(
+        `${api}/user/update/subscription`,
+        {
+          userid: data.userid,
+          amount: data.amount,
+          start_date: data.start_date,
+          end_date: data.end_date,
+          subscription_method: data.subscription_method,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Handle the response, e.g., update context or localStorage
+      toast.success("Subscription updated successfully!");
+      console.log("Subscription Response:", response.data);
+
+      return response.data;
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to update subscription."
+      );
+      console.error("Update Subscription Error:", error);
+    }
+  };
+
+  const makePayment = async (data) => {
+    try {
+      const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
+
+      console.log(token);
+
+      if (!token) {
+        throw new Error("No authentication token found. Please log in again.");
+      }
+      const response = await axios.post(
+        `${api}/user/make/payment`,
+        {
+          userid: data.userid,
+          amount: data.amount,
+          email: data.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // Handle the response, e.g., update context or localStorage
+      toast.success("Payment inialized");
+      console.log("Payment Response:", response.data);
+      const paymentUrl = response.data.data;
+      router.push(paymentUrl);
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to make payment.");
+      console.error("Payment Error:", error);
+    }
+  };
+
   // useEffect(() => {
   //   const register = async () => {
   //     try {
@@ -186,6 +263,8 @@ export const AuthProvider = ({ children }) => {
         forgotPassword,
         confirmForgotPasswordCode,
         resetPassword,
+        updateSubscription,
+        makePayment,
         isAuthenticated,
         setIsAuthenticated,
       }}
@@ -196,3 +275,39 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+
+// const updateSubscription = async (data, token) => {
+//   try {
+//     const response = await api.post(
+//       `${api}/user/update/subscription`,
+//       {
+//         userid: data.userid,
+//         amount: data.amount,
+//         end_date: data.end_date,
+//         start_date: data.start_date,
+//         subscription_method: data.subscription_method,
+//       }
+//       // {
+//       //   headers: {
+//       //     Authorization: `Bearer ${token}`,
+//       //     "Content-Type": "application/json",
+//       //   },
+//       // }
+//     );
+//     // Save the response payload to localStorage
+//     localStorage.setItem("subscriptionData", JSON.stringify(response.data));
+
+//     console.log("Subscription updated successfully:", response.data);
+//     toast.success("Subscription updated successfully!");
+//     return response.data;
+//   } catch (error) {
+//     console.error(
+//       "Error updating subscription:",
+//       error.response?.data || error.message
+//     );
+//     toast.error(
+//       error.response?.data?.message || "Failed to update subscription."
+//     );
+//     throw error;
+//   }
+// };
