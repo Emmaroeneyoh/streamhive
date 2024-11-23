@@ -1,10 +1,13 @@
+"use client";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 // import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const Success = () => {
   const { updateSubscription } = useAuth();
+  let subscriptionPlan = 0;
 
   function getMonthlySubscriptionDates() {
     const startDate = new Date(); // Current date as the start date
@@ -72,8 +75,10 @@ const Success = () => {
     updateSubscription(subscriptionData);
   };
 
-  const subscriptionPlan = localStorage.getItem("amount");
-  subscriptionPlan === 1000 ? handleMonthlyUpdate() : handleYearlyUpdate();
+  useEffect(() => {
+    subscriptionPlan = localStorage.getItem("amount");
+    subscriptionPlan === 1000 ? handleMonthlyUpdate() : handleYearlyUpdate();
+  }, []);
 
   return (
     <div className='min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4'>

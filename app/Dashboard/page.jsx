@@ -30,13 +30,23 @@ const Dashboard = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { user, retrieveUser } = useAuth();
   const [userData, setUserData] = useState({
-    userid: localStorage.getItem("userId"), // Default to localStorage for `userid`
+    userid: "", // Default to localStorage for `userid`
     username: "Jane Doe",
     email: "jane.doe@example.com",
     phone: "234567890",
     companyname: "Acme Corp",
     status: "Subscribe", // Default to "Subscribe"
   });
+
+  useEffect(() => {
+    const userid = localStorage.getItem("userId"); // Safely access localStorage
+    if (userid) {
+      setUserData((prevState) => ({
+        ...prevState,
+        userid, // Update the `userid` from localStorage
+      }));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
