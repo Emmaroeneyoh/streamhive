@@ -1,7 +1,79 @@
+"use client";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
-export default function PaymentSuccessPage() {
+const Success = () => {
+  const { updateSubscription } = useAuth();
+
+  function getMonthlySubscriptionDates() {
+    const startDate = new Date(); // Current date as the start date
+    const endDate = new Date(startDate); // Clone the start date
+    endDate.setDate(startDate.getDate() + 31); // Add 30 days to the start date
+
+    // Format the dates as "DD/MM/YYYY"
+    const formatDate = (date) => {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+
+    return {
+      start_date: formatDate(startDate),
+      end_date: formatDate(endDate),
+    };
+  }
+  function getYearlySubscriptionDates() {
+    const startDate = new Date(); // Current date as the start date
+    const endDate = new Date(startDate); // Clone the start date
+    endDate.setDate(startDate.getDate() + 366); // Add 30 days to the start date
+
+    // Format the dates as "DD/MM/YYYY"
+    const formatDate = (date) => {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+
+    return {
+      start_date: formatDate(startDate),
+      end_date: formatDate(endDate),
+    };
+  }
+
+  // Example usage
+  const monthlySubscriptionDates = getMonthlySubscriptionDates();
+  const yearlySubscriptionDates = getYearlySubscriptionDates();
+
+  const handleMonthlyUpdate = () => {
+    localStorage.setItem("amount", 1000);
+    const subscriptionData = {
+      userid: localStorage.getItem("userId"),
+      amount: localStorage.getItem("amount"),
+      start_date: monthlySubscriptionDates.start_date,
+      end_date: monthlySubscriptionDates.end_date,
+      subscription_method: { monthly: true, yearly: false },
+    };
+
+    updateSubscription(subscriptionData);
+  };
+  const handleYearlyUpdate = () => {
+    const subscriptionData = {
+      userid: localStorage.getItem("userId"),
+      amount: 1000,
+      start_date: yearlySubscriptionDates.start_date,
+      end_date: yearlySubscriptionDates.end_date,
+      subscription_method: { monthly: false, yearly: true },
+    };
+
+    updateSubscription(subscriptionData);
+  };
+
+  const subscriptionPlan = localStorage.getItem("amount");
+  subscriptionPlan === 1000 ? handleMonthlyUpdate() : handleYearlyUpdate();
+
   return (
     <div className='min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4'>
       <div className='max-w-md w-full bg-white rounded-lg shadow-xl p-8 animate-fade-in-up'>
@@ -29,12 +101,12 @@ export default function PaymentSuccessPage() {
           </div>
           <div className='flex justify-between'>
             <span className='font-medium text-gray-700'>Amount Paid:</span>
-            <span className='text-gray-600'>$99.99</span>
+            <span className='text-gray-600'>{subscriptionPlan}</span>
           </div>
         </div>
 
         <Link
-          href='/dashboard'
+          href='/Dashboard'
           className='block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center transition duration-300 ease-in-out transform hover:scale-105'
         >
           Return to Dashboard
@@ -42,4 +114,5 @@ export default function PaymentSuccessPage() {
       </div>
     </div>
   );
-}
+};
+export default Success;

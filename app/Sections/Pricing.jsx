@@ -3,78 +3,24 @@ import React from "react";
 import { useAuth } from "../context/AuthContext";
 
 const Pricing = () => {
-  const { updateSubscription, makePayment } = useAuth();
+  const { makePayment } = useAuth();
 
-  function getMonthlySubscriptionDates() {
-    const startDate = new Date(); // Current date as the start date
-    const endDate = new Date(startDate); // Clone the start date
-    endDate.setDate(startDate.getDate() + 30); // Add 30 days to the start date
-
-    // Format the dates as "DD/MM/YYYY"
-    const formatDate = (date) => {
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
-    };
-
-    return {
-      start_date: formatDate(startDate),
-      end_date: formatDate(endDate),
-    };
-  }
-  function getYearlySubscriptionDates() {
-    const startDate = new Date(); // Current date as the start date
-    const endDate = new Date(startDate); // Clone the start date
-    endDate.setDate(startDate.getDate() + 366); // Add 30 days to the start date
-
-    // Format the dates as "DD/MM/YYYY"
-    const formatDate = (date) => {
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
-    };
-
-    return {
-      start_date: formatDate(startDate),
-      end_date: formatDate(endDate),
-    };
-  }
-
-  // Example usage
-  const monthlySubscriptionDates = getMonthlySubscriptionDates();
-  const yearlySubscriptionDates = getYearlySubscriptionDates();
-  //   console.log(yearlySubscriptionDates.end_date);
-
-  //   console.log(
-  //     `Starts ${yearlySubscriptionDates.start_date} and ends ${yearlySubscriptionDates.end_date}`
-  //   );
-
-  const handleMonthlyUpdate = () => {
-    const subscriptionData = {
+  const handleMonthlyPayment = () => {
+    localStorage.removeItem("amount");
+    const amount = 1000;
+    localStorage.setItem("amount", amount);
+    const paymentData = {
       userid: localStorage.getItem("userId"),
       amount: 1000,
-      start_date: monthlySubscriptionDates.start_date,
-      end_date: monthlySubscriptionDates.end_date,
-      subscription_method: { monthly: true, yearly: false },
+      email: localStorage.getItem("email"),
     };
-
-    updateSubscription(subscriptionData);
-  };
-  const handleYearlyUpdate = () => {
-    const subscriptionData = {
-      userid: localStorage.getItem("userId"),
-      amount: 1000,
-      start_date: yearlySubscriptionDates.start_date,
-      end_date: yearlySubscriptionDates.end_date,
-      subscription_method: { monthly: false, yearly: true },
-    };
-
-    updateSubscription(subscriptionData);
+    makePayment(paymentData);
   };
 
-  const handlePayment = () => {
+  const handleYearlyPayment = () => {
+    localStorage.removeItem("amount");
+    const amount = 6000;
+    localStorage.setItem("amount", amount);
     const paymentData = {
       userid: localStorage.getItem("userId"),
       amount: 1000,
@@ -124,7 +70,7 @@ const Pricing = () => {
                 </span>
               </p>
               <button
-                onClick={handlePayment}
+                onClick={handleMonthlyPayment}
                 className='mt-8 block w-full bg-primary rounded-md py-2 text-sm font-semibold text-white text-center'
               >
                 Monthly
@@ -284,7 +230,7 @@ const Pricing = () => {
                 </span>
               </p>
               <button
-                onClick={handleYearlyUpdate}
+                onClick={handleYearlyPayment}
                 className='mt-8 block w-full bg-primary rounded-md py-2 text-sm font-semibold text-white text-center'
               >
                 Yearly

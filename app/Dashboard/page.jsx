@@ -27,16 +27,47 @@ import { useAuth } from "../context/AuthContext";
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { user } = useAuth();
+  const { user, retrieveUser } = useAuth();
   const [userData, setUserData] = useState({
-    name: user?.username || "Jane Doe",
-    email: user?.email || "jane.doe@example.com",
-    phone: user?.phone || "234567890",
-    company: user?.companyname || "Acme Corp",
-    status: user?.status ? "Subscribed" : "Subscribe" || "Subscribe",
-    // countryCode: "+1",
-    // profilePic: "https://via.placeholder.com/150",
+    userid: localStorage.getItem("userId"), // Default to localStorage for `userid`
+    username: "Jane Doe",
+    email: "jane.doe@example.com",
+    phone: "234567890",
+    companyname: "Acme Corp",
+    status: "Subscribe", // Default to "Subscribe"
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const retrievedData = {
+        userid: localStorage.getItem("userId"),
+      };
+
+      const response = await retrieveUser(retrievedData);
+      if (response?.data) {
+        setUserData(response.data); // Store full data for easier access
+        console.log(response.data);
+      } else {
+        throw new Error("User data not found in response");
+      }
+      // const response = await retrieveUser(retrievedData); // Call the API integration
+      // if (response?.data?.userDetails) {
+      //   // Set the fetched data
+      //   const userDetails = response.data.userDetails;
+      //   console.log(userDetails);
+      //   setUserData({
+      //     userid: userDetails._id,
+      //     name: userDetails.username || "Jane Doe",
+      //     email: userDetails.email || "jane.doe@example.com",
+      //     phone: userDetails.phone || "234567890",
+      //     company: userDetails.companyname || "Acme Corp",
+      //     status: userDetails.status ? "Subscribed" : "Subscribe",
+      //   });
+      // }
+    };
+
+    fetchData();
+  }, []);
 
   // Fetch user data on component mount
   // useEffect(() => {
@@ -177,7 +208,7 @@ const Dashboard = () => {
                   <input
                     type='text'
                     name='name'
-                    value={userData.name}
+                    value={userData.username}
                     onChange={handleChange}
                     readOnly={!isEditing}
                     className={`w-full p-2 border rounded-lg ${
@@ -249,7 +280,7 @@ const Dashboard = () => {
                   <input
                     type='text'
                     name='company'
-                    value={userData.company}
+                    value={userData.companyname}
                     onChange={handleChange}
                     readOnly={!isEditing}
                     className={`w-full p-2 border rounded-lg ${
@@ -268,7 +299,7 @@ const Dashboard = () => {
                   <input
                     type='text'
                     name='company'
-                    value={userData.company}
+                    value={userData.companyname}
                     onChange={handleChange}
                     readOnly={!isEditing}
                     className={`w-full p-2 border rounded-lg ${

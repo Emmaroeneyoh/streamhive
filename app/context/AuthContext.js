@@ -8,6 +8,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [paymentData, setPaymentData] = useState(null);
   const router = useRouter(); // Initialize router
 
   const api = "https://turnserver-vqwh.onrender.com";
@@ -220,6 +221,47 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const retrieveUser = async (data) => {
+    try {
+      const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
+
+      console.log(token);
+
+      if (!token) {
+        throw new Error("No authentication token found. Please log in again.");
+      }
+
+      const response = await axios.post(
+        `${api}/user/retrieve/profile`,
+        {
+          userid: data.userid,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // toast.success("Payment inialized");
+      console.log("User Retrived:", response.data);
+      setUser(
+        response.data.data.userDetails || {
+          username: data.username,
+          email: data.email,
+          companyname: data.companyname,
+          phone: data.phone,
+          status: data.status,
+          subscription_method: data.subscription_method,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Couldn't get User.");
+      console.error("User Error:", error);
+    }
+  };
+
   // useEffect(() => {
   //   const register = async () => {
   //     try {
@@ -265,6 +307,7 @@ export const AuthProvider = ({ children }) => {
         resetPassword,
         updateSubscription,
         makePayment,
+        retrieveUser,
         isAuthenticated,
         setIsAuthenticated,
       }}
