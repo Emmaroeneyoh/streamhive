@@ -13,6 +13,7 @@ import {
   LogOut,
 } from "lucide-react";
 import Users from "../components/_user/Users";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useAuth } from "../context/AuthContext";
 
 // const countryCodes = [
@@ -29,7 +30,7 @@ const Dashboard = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { user, retrieveUser } = useAuth();
   const [userData, setUserData] = useState({
-    userid: localStorage.getItem("userId"), // Default to localStorage for `userid`
+    userid: useLocalStorage.getItem("userId"), // Default to localStorage for `userid`
     username: "Jane Doe",
     email: "jane.doe@example.com",
     phone: "234567890",
@@ -40,7 +41,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       const retrievedData = {
-        userid: localStorage.getItem("userId"),
+        userid: useLocalStorage.getItem("userId"),
       };
 
       const response = await retrieveUser(retrievedData);

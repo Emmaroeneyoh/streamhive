@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+// import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const Success = () => {
   const { updateSubscription } = useAuth();
@@ -49,6 +50,7 @@ const Success = () => {
 
   const handleMonthlyUpdate = () => {
     localStorage.setItem("amount", 1000);
+
     const subscriptionData = {
       userid: localStorage.getItem("userId"),
       amount: localStorage.getItem("amount"),
