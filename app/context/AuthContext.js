@@ -186,6 +186,36 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const resetApi = async (data) => {
+    try {
+      const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
+
+      console.log(token);
+
+      if (!token) {
+        throw new Error("No authentication token found. Please log in again.");
+      }
+
+      const response = await axios.post(
+        `${api}/user/reset/api`,
+        {
+          userid: data.userid,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("User Api Reset:", response.data);
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Couldn't get User.");
+      console.error("User Error:", error);
+    }
+  };
+
   const makePayment = async (data) => {
     try {
       const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
@@ -308,6 +338,7 @@ export const AuthProvider = ({ children }) => {
         updateSubscription,
         makePayment,
         retrieveUser,
+        resetApi,
         isAuthenticated,
         setIsAuthenticated,
       }}
