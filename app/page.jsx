@@ -14,13 +14,13 @@ export default function Home() {
       <section id='home' className=' m-20 '>
         <Hero />
       </section>
-      <section id='resume' className=' mb-20'>
+      <section id='about' className=' mb-20'>
         <About />
       </section>
-      <section id='portfolio' className=' mb-20'>
+      <section id='documentation' className=' mb-20'>
         <Documentation />
       </section>
-      <section id='portfolio' className=' mb-20'>
+      <section id='features' className=' mb-20'>
         <Features />
       </section>
       <section id='pricing' className=' mb-20'>

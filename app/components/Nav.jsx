@@ -18,6 +18,10 @@ const navLinks = [
     path: "/#documentation",
   },
   {
+    name: "features",
+    path: "/#features",
+  },
+  {
     name: "pricing",
     path: "/#pricing",
   },
