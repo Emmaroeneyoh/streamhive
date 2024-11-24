@@ -2,12 +2,12 @@
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const Success = () => {
   const { updateSubscription } = useAuth();
-  let subscriptionPlan = 0;
+  const [subscriptionPlan, setSubscriptionPlan] = useState(null);
 
   function getMonthlySubscriptionDates() {
     const startDate = new Date(); // Current date as the start date
@@ -51,8 +51,6 @@ const Success = () => {
   const yearlySubscriptionDates = getYearlySubscriptionDates();
 
   const handleMonthlyUpdate = () => {
-    localStorage.setItem("amount", 1000);
-
     const subscriptionData = {
       userid: localStorage.getItem("userId"),
       amount: localStorage.getItem("amount"),
@@ -76,8 +74,14 @@ const Success = () => {
   };
 
   useEffect(() => {
-    subscriptionPlan = localStorage.getItem("amount");
-    subscriptionPlan === 1000 ? handleMonthlyUpdate() : handleYearlyUpdate();
+    const plan = localStorage.getItem("amount");
+    setSubscriptionPlan(plan);
+
+    plan === 95000 || 1020000 ? handleMonthlyUpdate() : handleYearlyUpdate();
+
+    // subscriptionPlan = localStorage.getItem("amount");
+    // subscriptionPlan === 1000 ? handleMonthlyUpdate() : handleYearlyUpdate();
+    console.log(`Here's ${subscriptionPlan}`);
   }, []);
 
   return (

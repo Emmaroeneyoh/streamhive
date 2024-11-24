@@ -1,29 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Edit2,
-  Save,
-  Mail,
-  Phone,
-  User,
-  Briefcase,
-  Menu,
-  X,
-  LogOut,
-} from "lucide-react";
+import { Edit2, Save, Mail, Phone, User, Briefcase, Menu } from "lucide-react";
 import Users from "../components/_user/Users";
 
 import { useAuth } from "../context/AuthContext";
-
-// const countryCodes = [
-//   { code: "+1", label: "USA/Canada (+1)" },
-//   { code: "+44", label: "UK (+44)" },
-//   { code: "+234", label: "Nigeria (+234)" },
-//   { code: "+91", label: "India (+91)" },
-//   { code: "+61", label: "Australia (+61)" },
-//   { code: "+81", label: "Japan (+81)" },
-// ];
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -36,6 +17,10 @@ const Dashboard = () => {
     phone: "234567890",
     companyname: "Acme Corp",
     status: "Subscribe", // Default to "Subscribe"
+    api: "demo-api-key", // Placeholder for API Key
+    amount: "5000", // Placeholder for amount
+    start_date: "2024-01-01", // Placeholder for start date
+    end_date: "2024-12-31", // Placeholder for end date
   });
 
   useEffect(() => {
@@ -61,36 +46,10 @@ const Dashboard = () => {
       } else {
         throw new Error("User data not found in response");
       }
-      // const response = await retrieveUser(retrievedData); // Call the API integration
-      // if (response?.data?.userDetails) {
-      //   // Set the fetched data
-      //   const userDetails = response.data.userDetails;
-      //   console.log(userDetails);
-      //   setUserData({
-      //     userid: userDetails._id,
-      //     name: userDetails.username || "Jane Doe",
-      //     email: userDetails.email || "jane.doe@example.com",
-      //     phone: userDetails.phone || "234567890",
-      //     company: userDetails.companyname || "Acme Corp",
-      //     status: userDetails.status ? "Subscribed" : "Subscribe",
-      //   });
-      // }
     };
 
     fetchData();
   }, []);
-
-  // Fetch user data on component mount
-  // useEffect(() => {
-  //   if (user) {
-  //     setUserData({
-  //       name: user.username || "Jane Doe",
-  //       email: user.email || "jane.doe@example.com",
-  //       phone: user.phone || "234567890",
-  //       company: user.companyname || "Acme Corp",
-  //     });
-  //   }
-  // }, [user]);
 
   const handleChange = (e) => {
     setUserData({
@@ -106,20 +65,6 @@ const Dashboard = () => {
     });
   };
 
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setUserData({
-  //         ...userData,
-  //         profilePic: reader.result,
-  //       });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
@@ -131,67 +76,6 @@ const Dashboard = () => {
 
   return (
     <div className='flex min-h-screen bg-gray-100'>
-      {/* Sidebar */}
-      {/* <div
-        className={`fixed top-0 left-0 z-50 h-screen bg-accent shadow-md transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform md:relative md:translate-x-0 w-64`}
-      >
-        <div className='p-4 flex justify-between items-center border-b'>
-          <h2 className='text-lg font-bold text-gray-800'>Student Portal</h2>
-          <button
-            className='md:hidden text-gray-600 hover:text-gray-800'
-            onClick={() => setIsSidebarOpen(false)}
-          >
-            <X className='w-6 h-6' />
-          </button>
-        </div>
-        <div className='p-4 text-center'>
-          <img
-            src={userData.profilePic}
-            alt='Profile'
-            className='w-24 h-24 rounded-full mx-auto mb-4 object-cover'
-          />
-          <h3 className='text-lg font-semibold text-gray-700'>
-            {userData.name}
-          </h3>
-          <label
-            htmlFor='profile-pic'
-            className='text-green-600 cursor-pointer hover:underline text-sm'
-          >
-            Edit Profile Picture
-          </label>
-          <input
-            type='file'
-            id='profile-pic'
-            accept='image/*'
-            className='hidden'
-            onChange={handleFileChange}
-          />
-        </div>
-        <nav className='mt-6'>
-          <div className=' flex flex-col justify-between w-full h-[455px] items-start '>
-            <ul>
-              <li className='py-3 px-4 text-gray-700 hover:bg-gray-100 w-full rounded-lg cursor-pointer'>
-                Dashboard
-              </li>
-              <li className='py-3 px-4 text-gray-700 hover:bg-gray-100 w-full rounded-lg cursor-pointer'>
-                Courses
-              </li>
-              <li className='py-3 px-4 text-gray-700 hover:bg-gray-100 w-full rounded-lg cursor-pointer'>
-                Settings
-              </li>
-            </ul>
-            <ul>
-              <li className='py-3 px-4 text-gray-700 hover:bg-gray-100 w-full rounded-lg flex items-center justify-between cursor-pointer'>
-                Logout
-                <LogOut className='w-5 h-5 text-gray-500' />
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div> */}
-
       {/* Main Dashboard Area */}
       <div className='flex-1'>
         {/* Mobile Menu Button */}
@@ -331,13 +215,41 @@ const Dashboard = () => {
                   {userData?.status === true ? (
                     <div className=' flex flex-col gap-2 justify-center items-center'>
                       <p>You are Subscribed</p>
-                      <button
+                      {/* <button
                         type='button'
-                        className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition'
+                        className='bg-gray-600 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-700 transition'
                       >
-                        {/* <Edit2 className='inline w-5 h-5 mr-2' /> */}
                         {userData?.status}
-                      </button>
+                      </button> */}
+                      {/* <Edit2 className='inline w-5 h-5 mr-2' /> */}
+                      {/* New Section */}
+                      <div className='mt-8 p-4 bg-gray-50 border border-gray-200 rounded-lg'>
+                        <h3 className='text-lg font-bold mb-4'>
+                          Subscription Details
+                        </h3>
+                        <div className='space-y-2'>
+                          <p>
+                            <span className='font-semibold'>API Key:</span>{" "}
+                            {userData.api}
+                          </p>
+                          <p>
+                            <span className='font-semibold'>Amount Paid:</span>{" "}
+                            ₦{userData.amount}
+                          </p>
+                          <p>
+                            <span className='font-semibold'>
+                              Subscription Start:
+                            </span>{" "}
+                            {userData.start_date}
+                          </p>
+                          <p>
+                            <span className='font-semibold'>
+                              Subscription End:
+                            </span>{" "}
+                            {userData.end_date}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <div className=' flex flex-col gap-2 justify-center items-center'>

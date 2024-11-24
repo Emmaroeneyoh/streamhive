@@ -283,6 +283,10 @@ export const AuthProvider = ({ children }) => {
           phone: data.phone,
           status: data.status,
           subscription_method: data.subscription_method,
+          api: data.api,
+          amount: data.amount,
+          start_date: data.start_date,
+          end_date: data.end_date,
         }
       );
       return response.data;
