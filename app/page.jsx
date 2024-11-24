@@ -1,4 +1,7 @@
+import About from "./Sections/About";
 import Contact from "./Sections/Contact";
+import Documentation from "./Sections/Documentation";
+import Features from "./Sections/Features";
 import Hero from "./Sections/Hero";
 import Jobs from "./Sections/Jobs";
 import Portfolio from "./Sections/Portfolio";
@@ -12,10 +15,13 @@ export default function Home() {
         <Hero />
       </section>
       <section id='resume' className=' mb-20'>
-        <Resume />
+        <About />
       </section>
       <section id='portfolio' className=' mb-20'>
-        <Portfolio />
+        <Documentation />
+      </section>
+      <section id='portfolio' className=' mb-20'>
+        <Features />
       </section>
       <section id='pricing' className=' mb-20'>
         <Pricing />

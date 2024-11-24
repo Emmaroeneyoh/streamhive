@@ -66,7 +66,7 @@ const Success = () => {
   const handleYearlyUpdate = () => {
     const subscriptionData = {
       userid: localStorage.getItem("userId"),
-      amount: 1000,
+      amount: localStorage.getItem("amount"),
       start_date: yearlySubscriptionDates.start_date,
       end_date: yearlySubscriptionDates.end_date,
       subscription_method: { monthly: false, yearly: true },
@@ -84,7 +84,7 @@ const Success = () => {
     <div className='min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4'>
       <div className='max-w-md w-full bg-white rounded-lg shadow-xl p-8 animate-fade-in-up'>
         <div className='text-center'>
-          <CheckCircle className='mx-auto h-16 w-16 text-green-500 mb-4' />
+          <CheckCircle className='mx-auto h-16 w-16 text-primary mb-4' />
           <h2 className='text-3xl font-bold text-gray-800 mb-2'>
             Payment Successful!
           </h2>
@@ -95,7 +95,7 @@ const Success = () => {
         </div>
 
         <div className='border-t border-b border-gray-200 py-4 mb-6'>
-          <div className='flex justify-between mb-2'>
+          {/* <div className='flex justify-between mb-2'>
             <span className='font-medium text-gray-700'>Order ID:</span>
             <span className='text-gray-600'>#12345678</span>
           </div>
@@ -104,7 +104,7 @@ const Success = () => {
             <span className='text-gray-600'>
               {new Date().toLocaleDateString()}
             </span>
-          </div>
+          </div> */}
           <div className='flex justify-between'>
             <span className='font-medium text-gray-700'>Amount Paid:</span>
             <span className='text-gray-600'>{subscriptionPlan}</span>
@@ -113,7 +113,7 @@ const Success = () => {
 
         <Link
           href='/Dashboard'
-          className='block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg text-center transition duration-300 ease-in-out transform hover:scale-105'
+          className='block w-full bg-secondary hover:bg-primary text-white font-bold py-3 px-4 rounded-lg text-center transition duration-300 ease-in-out transform hover:scale-105'
         >
           Return to Dashboard
         </Link>
