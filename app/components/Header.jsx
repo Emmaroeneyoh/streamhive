@@ -7,8 +7,10 @@ function Header() {
   return (
     <header className='  fixed top-0 w-full z-50 bg-white'>
       <div className='p-4 mx-auto flex justify-between items-center'>
-        <div className=' bg-primary text-white font-bold py-2 px-3 '>
-          <Link href={"/"}>Gleeful.</Link>
+        <div className=' text-white font-bold py-2 px-3 '>
+          <Link href={"/"}>
+            <img src='/assets/logo.png' width={250} alt='' />
+          </Link>
         </div>
 
         <div className=' hidden sm:flex'>

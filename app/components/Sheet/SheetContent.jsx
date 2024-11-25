@@ -11,11 +11,8 @@ const SheetContent = ({ isOpen, children, onClose }) => {
     >
       <div className=' flex justify-between items-center p-4 border-b border-gray-200'>
         <div>
-          <Link
-            href={"/"}
-            className=' bg-primary text-white font-bold py-2 px-3 '
-          >
-            Gleeful.
+          <Link href={"/"} className=' text-white font-bold py-2 px-3 '>
+            <img src='/assets/logo.png' width={150} alt='' />
           </Link>
         </div>
         <button
