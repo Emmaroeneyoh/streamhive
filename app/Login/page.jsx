@@ -11,7 +11,7 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  });
+  })
 
   const handleChange = (e) => {
     setFormData({
