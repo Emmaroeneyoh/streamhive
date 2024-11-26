@@ -2,7 +2,7 @@
 import { EyeIcon, EyeOffIcon, Mail, Lock } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"
 
 const Login = () => {
   const { login } = useAuth();
