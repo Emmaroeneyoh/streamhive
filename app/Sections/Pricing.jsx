@@ -88,9 +88,7 @@ const Pricing = () => {
               Designed for small-scale projects and beginners.
             </p>
             <p className='mt-8'>
-              <span className='text-4xl font-bold text-slate-900'>
-                NGN 95,000
-              </span>
+              <span className='text-4xl font-bold text-slate-900'>NGN 100</span>
               <span className='text-base font-medium text-slate-500'> /mo</span>
             </p>
             {/* <p className='text-sm text-slate-500 mt-1'>NGN 1,020,000 yearly</p> */}
