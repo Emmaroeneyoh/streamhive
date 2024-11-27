@@ -7,11 +7,11 @@ const Pricing = () => {
 
   const handleMonthlyBasicPayment = () => {
     localStorage.removeItem("amount");
-    const amount = 95000;
+    const amount = 100;
     localStorage.setItem("amount", amount);
     const paymentData = {
       userid: localStorage.getItem("userId"),
-      amount: 95000,
+      amount: 100,
       email: localStorage.getItem("email"),
     };
     makePayment(paymentData);
