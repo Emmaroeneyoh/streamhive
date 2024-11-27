@@ -10,7 +10,7 @@
   --accent: #fbd8d5;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -18,7 +18,7 @@
     --secondary: #f49e95;
     --accent: #fbd8d5;
   }
-}
+} */
 
 html {
   scroll-behavior: smooth;
