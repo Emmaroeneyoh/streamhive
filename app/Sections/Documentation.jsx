@@ -54,10 +54,6 @@ const Documentation = () => {
             </pre>
           </div>
         </section>
-
-        <footer className='text-center mt-12'>
-          <p className='text-gray-500'>Emmaro | Emmaro Eneyoh</p>
-        </footer>
       </div>
     </div>
   );

@@ -5,9 +5,9 @@ import Image from "next/image";
 const Photo = () => {
   return (
     <div className=' w-full h-full'>
-      <div className=' w-[298px] h-[298px] xl:w-[498px] xl:h-[498px]'>
+      <div className=' w-[298px] h-[298px] xl:w-[600px] xl:h-[600px]'>
         <img
-          src='/assets/profile-photo.png'
+          src='/assets/hero.svg'
           quality={100}
           alt=''
           className='object-contain'
