@@ -25,7 +25,7 @@ const Documentation = () => {
 -H "Authorization: Bearer YOUR_API_KEY" \\
 -H "Content-Type: application/json" \\
 -d '{
-  "email": "kingdev@"
+  "email": "kingdev@gmail.com"
 }'`}
             </pre>
           </div>

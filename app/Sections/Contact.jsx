@@ -93,7 +93,7 @@ function Contact() {
         <div class='text-zinc-600 cursor-default lg:flex lg:flex-row lg:gap-x-16'>
           <div>
             <h2 class='text-2xl text-zinc-800 font-mono font-bold'>
-              STREAM HIVE.
+              STEAM HIVE.
             </h2>
             <ul class='mt-4 text-sm flex flex-col items-start justify-start gap-2'>
               <li class='flex flex-row items-start'>
@@ -111,7 +111,7 @@ function Contact() {
                     ></path>
                   </svg>
                 </span>
-                <p class='font-inter'>Stream Hive</p>
+                <p class='font-inter'>Steam Hive</p>
               </li>
               <li class='flex flex-row items-start'>
                 <span>
@@ -134,7 +134,7 @@ function Contact() {
                   </svg>
                 </span>
                 <p class='font-inter'>
-                  81807 E. County Road 22, Deer Trail, CO 80105, US
+                  Adebayo Plaza, Suite 3B 22, Ikeja Lagos State Nigeria.
                 </p>
               </li>
             </ul>
@@ -164,11 +164,10 @@ function Contact() {
                     </svg>
                   </span>
                   <a
-                    target='javascript:;'
                     class='text-left text-zinc-600 break-words hover:underline hover:text-zinc-800'
-                    href='javascript:;'
+                    href='mailto:steamhiveserver@gmail.com'
                   >
-                    email
+                    steamhiveserver@gmail.com
                   </a>
                 </li>
               </ul>
@@ -178,12 +177,8 @@ function Contact() {
               <ul class='mt-4 grid gap-2 grid-cols-2'>
                 <li class='flex items-start text-sm'>
                   <span></span>
-                  <a
-                    target='javascript:;'
-                    class='text-left text-zinc-600 break-words hover:underline hover:text-zinc-800'
-                    href='/services'
-                  >
-                    +234 00000000
+                  <a class='text-left text-zinc-600 break-words hover:underline hover:text-zinc-800'>
+                    +234 9022202879
                   </a>
                 </li>
               </ul>
@@ -191,7 +186,7 @@ function Contact() {
           </div>
         </div>
         <div class='w-full mt-10 py-10 border-t border-zinc-200 font-inter text-center text-xs text-zinc-400'>
-          Copyright ©2024 Tech Solutions Co. All rights reserved.
+          Copyright ©2024 Steamhive all rights reserved.
         </div>
       </div>
     </footer>
