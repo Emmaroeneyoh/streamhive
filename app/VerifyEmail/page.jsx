@@ -10,7 +10,7 @@ const VerifyEmail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    await verifyEmail(code);
+    await verifyEmail({ code });
     setIsLoading(false);
   };
 
