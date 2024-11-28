@@ -30,21 +30,24 @@ export const AuthProvider = ({ children }) => {
         phone: data.phone,
       });
 
-      // Set the user data in context after signup
-      setUser(
-        response.data.data.userDetails || {
-          username: data.username,
-          email: data.email,
-          companyname: data.companyname,
-          phone: data.phone,
-        }
-      );
-      console.log(user);
+      setUser(response.data.user);
+
+      // // Set the user data in context after signup
+      // setUser(
+      //   response.data.data.userDetails || {
+      //     username: data.username,
+      //     email: data.email,
+      //     companyname: data.companyname,
+      //     phone: data.phone,
+      //   }
+      // );
+      // console.log(user);
 
       toast.success("Signup successful! Check your email for verification.");
       router.push("/VerifyEmail");
       return response.data;
     } catch (error) {
+      console.log(error);
       toast.error(error.response?.data?.message || "Signup failed!");
     }
   };
