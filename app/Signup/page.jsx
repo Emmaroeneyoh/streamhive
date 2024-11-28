@@ -193,7 +193,7 @@ const Signup = () => {
               type='submit'
               className='w-full bg-secondary text-white py-3 rounded-lg hover:bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2'
             >
-              {!isLoading ? "Sign In" : "Authenticating..."}
+              {!isLoading ? "Sign Up" : "Authenticating..."}
             </button>
 
             <div className='relative'>
