@@ -1,15 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Edit2, Save, Mail, Phone, User, Briefcase, Menu } from "lucide-react";
+import {
+  Edit2,
+  Save,
+  Mail,
+  Phone,
+  User,
+  Briefcase,
+  Menu,
+  LogOutIcon,
+} from "lucide-react";
 import Users from "../components/_user/Users";
 
 import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { user, retrieveUser } = useAuth();
+  const { user, retrieveUser, setIsAuthenticated } = useAuth();
   const [userData, setUserData] = useState({
     userid: "", // Default to localStorage for `userid`
     username: "Jane Doe",
@@ -23,32 +33,49 @@ const Dashboard = () => {
     end_date: "2024-12-31", // Placeholder for end date
   });
 
-  useEffect(() => {
-    const userid = localStorage.getItem("userId"); // Safely access localStorage
-    if (userid) {
-      setUserData((prevState) => ({
-        ...prevState,
-        userid, // Update the `userid` from localStorage
-      }));
-    }
-  }, []);
+  const navigate = useRouter();
+
+  const Logout = () => {
+    localStorage.removeItem("amount");
+    localStorage.removeItem("email");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("jsontokenWebToken");
+    setIsAuthenticated(false);
+    navigate.push("/");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const retrievedData = {
-        userid: localStorage.getItem("userId"),
-      };
+      const userId = localStorage.getItem("userId"); // Retrieve userId from localStorage
+      const token = localStorage.getItem("jsontokenWebToken"); // Retrieve token
 
-      const response = await retrieveUser(retrievedData);
-      if (response?.data) {
-        setUserData(response.data); // Store full data for easier access
-        console.log(response.data);
-      } else {
-        throw new Error("User data not found in response");
+      if (userId && token) {
+        try {
+          // Update user data state with userId
+          setUserData((prevState) => ({
+            ...prevState,
+            userid: userId,
+          }));
+
+          // Fetch user details from the server
+          const response = await retrieveUser({ userid: userId });
+
+          if (response?.data) {
+            setUserData(response.data); // Update state with retrieved user data
+          } else {
+            throw new Error("User data not found in response");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Handle errors (e.g., logout or display an error message)
+          localStorage.clear(); // Clear local storage if fetching fails
+          setIsAuthenticated(false); // Set authentication status to false
+          navigate.push("/"); // Redirect to login
+        }
       }
     };
 
-    fetchData();
+    fetchData(); // Call fetchData immediately
   }, []);
 
   const handleChange = (e) => {
@@ -237,11 +264,12 @@ const Dashboard = () => {
                     <div className=' flex flex-col gap-2 justify-center items-center'>
                       <p>You are Not Subscribed</p>
                       <button
+                        onClick={() => navigate.push("/#pricing")}
                         type='button'
                         className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition'
                       >
                         {/* <Edit2 className='inline w-5 h-5 mr-2' /> */}
-                        {userData?.status}
+                        Subscribe
                       </button>
                     </div>
                   )}
@@ -249,26 +277,39 @@ const Dashboard = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className='flex justify-end space-x-4'>
-                {isEditing ? (
+              <div className='flex justify-between items-center'>
+                <div className='flex justify-end space-x-4'>
                   <button
                     type='button'
-                    onClick={handleSave}
-                    className='bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition'
+                    onClick={() => Logout()}
+                    className='bg-primary text-white py-2 px-4 rounded-lg hover:bg-green-700 transition'
                   >
-                    <Save className='inline w-5 h-5 mr-2' />
-                    Save
+                    <LogOutIcon className='inline w-5 h-5 mr-2' />
+                    Logout
                   </button>
-                ) : (
-                  <button
-                    type='button'
-                    onClick={toggleEdit}
-                    className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition'
-                  >
-                    <Edit2 className='inline w-5 h-5 mr-2' />
-                    Edit
-                  </button>
-                )}
+                </div>
+                {/* Action Buttons */}
+                <div className='flex justify-end space-x-4'>
+                  {isEditing ? (
+                    <button
+                      type='button'
+                      onClick={handleSave}
+                      className='bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition'
+                    >
+                      <Save className='inline w-5 h-5 mr-2' />
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      type='button'
+                      onClick={toggleEdit}
+                      className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition'
+                    >
+                      <Edit2 className='inline w-5 h-5 mr-2' />
+                      Edit
+                    </button>
+                  )}
+                </div>
               </div>
             </form>
           </div>

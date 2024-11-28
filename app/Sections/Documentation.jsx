@@ -21,7 +21,7 @@ const Documentation = () => {
           <h2 className='text-2xl font-semibold mb-4'>Request Example</h2>
           <div className='bg-gray-900 text-white p-4 rounded-lg overflow-x-auto'>
             <pre className='whitespace-pre-line'>
-              {`curl -X POST https://api.yourturnserver.com/v1/sessions \\
+              {`curl -X POST https://turnserver-vqwh.onrender.com/user/steamhive/request/session \\
 -H "Authorization: Bearer YOUR_API_KEY" \\
 -H "Content-Type: application/json" \\
 -d '{
@@ -43,7 +43,7 @@ const Documentation = () => {
     "port": 3478,
     "credentials": {
       "username": "user123",
-      "password": "pass456"
+      "apikey": "27363648"
     },
     "protocols": ["UDP", "TCP"],
     "tls": {

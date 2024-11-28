@@ -51,13 +51,14 @@ export const AuthProvider = ({ children }) => {
 
   const verifyEmail = async (data) => {
     try {
-      const response = await api.post(`${api}/user/confirmcode`, {
+      const response = await axios.post(`${api}/user/confirmcode`, {
         code: data.code,
       });
       toast.success("Email verified successfully!");
       router.push("/Login");
       return response.data;
     } catch (error) {
+      console.log(data);
       toast.error(error.response?.data?.message || "Verification failed!");
     }
   };
@@ -81,7 +82,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("userId", userId);
       localStorage.setItem("email", email);
 
-      console.log(response.data);
+      // console.log(response.data);
       // Set the user data in context after signup
       setUser(
         response.data.data.userDetails || {
@@ -92,13 +93,42 @@ export const AuthProvider = ({ children }) => {
           status: data.status,
         }
       );
-      console.log(response.data.data.userDetails.status);
+      // console.log(response.data.data.userDetails.status);
 
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed!");
     }
   };
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("jsontokenWebToken");
+
+  //   if (token) {
+  //     // Optional: Add token validation logic here, e.g., verify expiration
+  //     const fetchUserData = async () => {
+  //       try {
+  //         // Example: Retrieve user details based on token
+  //         const response = await axios.get(`${api}/user/retrieve/profile`, {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         });
+
+  //         // Set the user data in context
+  //         setUser(response.data.data.userDetails);
+  //         setIsAuthenticated(true);
+  //       } catch (error) {
+  //         console.error("Failed to fetch user data:", error);
+  //         // Clear invalid token from local storage
+  //         localStorage.removeItem("jsontokenWebToken");
+  //         setIsAuthenticated(false);
+  //       }
+  //     };
+
+  //     fetchUserData();
+  //   }
+  // }, []);
 
   const forgotPassword = async (email) => {
     try {
@@ -150,7 +180,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
 
-      console.log(token);
+      // console.log(token);
 
       if (!token) {
         throw new Error("No authentication token found. Please log in again.");
@@ -175,7 +205,7 @@ export const AuthProvider = ({ children }) => {
 
       // Handle the response, e.g., update context or localStorage
       toast.success("Subscription updated successfully!");
-      console.log("Subscription Response:", response.data);
+      // console.log("Subscription Response:", response.data);
 
       return response.data;
     } catch (error) {
@@ -190,7 +220,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
 
-      console.log(token);
+      // console.log(token);
 
       if (!token) {
         throw new Error("No authentication token found. Please log in again.");
@@ -208,11 +238,11 @@ export const AuthProvider = ({ children }) => {
           },
         }
       );
-      console.log("User Api Reset:", response.data);
+      // console.log("User Api Reset:", response.data);
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Couldn't get User.");
-      console.error("User Error:", error);
+      // console.error("User Error:", error);
     }
   };
 
@@ -220,7 +250,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
 
-      console.log(token);
+      // console.log(token);
 
       if (!token) {
         throw new Error("No authentication token found. Please log in again.");
@@ -241,13 +271,13 @@ export const AuthProvider = ({ children }) => {
       );
       // Handle the response, e.g., update context or localStorage
       toast.success("Payment inialized");
-      console.log("Payment Response:", response.data);
+      // console.log("Payment Response:", response.data);
       const paymentUrl = response.data.data;
       router.push(paymentUrl);
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to make payment.");
-      console.error("Payment Error:", error);
+      // console.error("Payment Error:", error);
     }
   };
 
@@ -255,7 +285,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("jsontokenWebToken"); // Retrieve the token from localStorage
 
-      console.log(token);
+      // console.log(token);
 
       if (!token) {
         throw new Error("No authentication token found. Please log in again.");
@@ -274,7 +304,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
       // toast.success("Payment inialized");
-      console.log("User Retrived:", response.data);
+      // console.log("User Retrived:", response.data);
       setUser(
         response.data.data.userDetails || {
           username: data.username,
@@ -289,10 +319,11 @@ export const AuthProvider = ({ children }) => {
           end_date: data.end_date,
         }
       );
+      setIsAuthenticated(true);
       return response.data;
     } catch (error) {
       toast.error(error.response?.data?.message || "Couldn't get User.");
-      console.error("User Error:", error);
+      // console.error("User Error:", error);
     }
   };
 

@@ -10,14 +10,14 @@ const VerifyEmail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    await verifyEmail({ code });
+    await verifyEmail(code);
     setIsLoading(false);
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className='max-w-md mx-auto bg-white p-6 shadow-md rounded-md'
+      className='max-w-md mx-auto flex justify-center items-start h-screen flex-col bg-white p-6 shadow-md rounded-md'
     >
       <h2 className='text-2xl font-bold mb-4'>Verify Email</h2>
       <div className='mb-4'>
