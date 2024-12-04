@@ -43,11 +43,11 @@ const Pricing = () => {
 
   const handleYearlyEcoPayment = () => {
     localStorage.removeItem("amount");
-    const amount = 11320000;
+    const amount = 1320000;
     localStorage.setItem("amount", amount);
     const paymentData = {
       userid: localStorage.getItem("userId"),
-      amount: 11320000,
+      amount: 1320000,
       email: localStorage.getItem("email"),
     };
     makePayment(paymentData);
@@ -269,7 +269,7 @@ const Pricing = () => {
             </p>
             <p className='mt-8'>
               <span className='text-4xl font-bold text-slate-900'>
-                NGN 1,1320,000
+                NGN 1,320,000
               </span>
               <span className='text-base font-medium text-slate-500'> /mo</span>
             </p>
